@@ -4,9 +4,6 @@
 var Word = require("./word.js");
 var inquirer = require("inquirer");
 
-// letters entry
-var letterArray = "abcdefghijklmnopqrstuvwxyz";
-
 // List of words to choose from
 var wordList = ["discrete", "guru", "summit", "cumbersome", "relish", "frayed", "fleet", "reinforce", "eloquent", "respectively",
 "procrastination", "conundrum", "aesthetically", "recipient", "indecipherable", "dissect", "sleuthing", "labyrinth", "disparage", "tribute",
@@ -24,10 +21,13 @@ var newGame = false;
 // Array for guessed letters
 var incorrectLetters = [];
 var correctLetters = [];
+var guessedLetters = [];
+
 
 // Guesses left
 var guessesLeft = 10;
 
+// Its how we we will start and restart the game.
 function startGame() {
 
     // Generates new word for Word constructor if true
@@ -52,11 +52,21 @@ function startGame() {
                 {
                     type: "input",
                     message: "Guess a letter between A-Z!",
-                    name: "userinput"
+                    name: "userinput",
+                    validate: function(value) {
+                        var pass = value.match(
+                          /[abcdefghijklmnopqrstuvwxyz]/i
+                        );
+                        if (pass) {
+                          return true;
+                        }
+                  
+                        return 'Please enter a valid alphabet';
+                      }
                 }
             ])
             .then(function (input) {   
-                if (!letterArray.includes(input.userinput) || input.userinput.length > 1) {
+                if (input.userinput.length > 1) {
                     console.log("\nPlease enter one alphabet!\n");
                     startGame();
                 } else {                
@@ -82,7 +92,7 @@ function startGame() {
                             correctLetters.push(input.userinput);
                         }
                      
-                        gameWord.log();
+                        gameWord.show();
 
                         // Print guesses left
                         console.log("Guesses Left: " + guessesLeft + "\n");
@@ -121,20 +131,20 @@ function restartGame() {
         .prompt([
             {
                 type: "list",
-                message: "Would you like to:",
-                choices: ["Play Again", "Exit"],
+                message: "Want to do one more game?",
+                choices: ["Yes", "Exit"],
                 name: "restart"
             }
         ])
         .then(function (input) {
-            if (input.restart === "Play Again") {
+            if (input.restart === "Yes") {
                 newGame = true;
                 incorrectLetters = [];
                 correctLetters = [];
                 guessesLeft = 10;
                 startGame();
             } else {
-                return
+                return;
             }
         })
 }

@@ -24,12 +24,12 @@ function Word(answer) {
         this.wordArray.push(letter);
     }
     
-    this.log = function () {
-        answerLog = "";
+    this.show = function () {
+        message = "";
         for (var i = 0; i < this.wordArray.length; i++) {
-            answerLog += this.wordArray[i] + " ";
+            message += this.wordArray[i] + " ";
         }
-        console.log(answerLog + "\n");
+        console.log(message + "\n");
     }
     
     this.userGuess = function (input) {
