@@ -45,6 +45,8 @@ function startGame() {
     var wordComplete = [];
     gameWord.wordArray.forEach(completeCheck);
 
+    gameWord.show();
+
     // letters remaining to be guessed
     if (wordComplete.includes(false)) {
         inquirer
@@ -86,7 +88,8 @@ function startGame() {
                            
                             incorrectLetters.push(input.userinput);
                             guessesLeft--;
-                        } else {
+                        } 
+                        else {
                             console.log("\nCorrect!\n");
                            
                             correctLetters.push(input.userinput);
